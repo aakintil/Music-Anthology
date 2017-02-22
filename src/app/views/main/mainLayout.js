@@ -9,7 +9,9 @@ window.MainLayout = Backbone.Marionette.LayoutView.extend( {
 	template: JST["views/main/main"],
 
 	regions: {
-		"main" : "#main",
+		"header": "#header", 
+		"content" : "#content",
+		"footer": "#footer"
 	},
 
 	initialize: function( options ) {},

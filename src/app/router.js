@@ -2,16 +2,16 @@
 	# Defines the main router
 */
 
-window.Router = Backbone.Marionette.AppRouter.extend( {
+window.Router = Backbone.Marionette.AppRouter.extend({
 
-	initialize: function( options ) {
+	initialize: function (options) {
 
 		var containerView = options.containerView;
-		
+
 	},
 
 	appRoutes: {
-		"(/)"								: "handleRouteIndex",
+		//		"(/)"								: "handleRouteIndex",
 		// "section/:id" 					: "handleRouteSection",
 	}
 

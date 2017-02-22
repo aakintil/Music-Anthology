@@ -57,25 +57,41 @@ window.Controller = Backbone.Marionette.Object.extend({
 
 		this.retrievePostData();
 		this.containerView = options.containerView;
-
+		this.eventEmitter = _.extend({}, Backbone.Events);
 	},
 
 	retrievePostData: function () {
 		console.log("retrieving...");
 
-		var posts = new window.PostsModelCollection();
-		console.log(posts);
+		var posts = new window.Collection_Model_Posts(),
+			self = this;
 
 		posts.fetch({
 			url: "data/openGraphPosts.json",
 			success: function (success) {
-				console.log("JSON file load was successful", posts);
+				console.log("JSON file load was successful -- ", posts.length, " posts.");
+				self.initializeContentView(posts);
 			},
 			error: function (error) {
 				console.log('There was some error in loading and processing the JSON file \n');
+				// initialize an error view on the home page
+				// self.showErrorPage(); 
 			}
 		});
+
 	},
+
+	initializeContentView: function (posts) {
+		// Clear the region
+		this.containerView.content.empty();
+
+		// Init view
+		// var view = new window.View();
+
+		// Show  view
+		// this.containerView.main.show(view);
+	},
+
 	handleRouteIndex: function (routeData) {
 
 		// Clear the region
@@ -103,16 +119,16 @@ window.Controller = Backbone.Marionette.Object.extend({
 	# Defines the main router
 */
 
-window.Router = Backbone.Marionette.AppRouter.extend( {
+window.Router = Backbone.Marionette.AppRouter.extend({
 
-	initialize: function( options ) {
+	initialize: function (options) {
 
 		var containerView = options.containerView;
-		
+
 	},
 
 	appRoutes: {
-		"(/)"								: "handleRouteIndex",
+		//		"(/)"								: "handleRouteIndex",
 		// "section/:id" 					: "handleRouteSection",
 	}
 
@@ -121,16 +137,17 @@ window.Router = Backbone.Marionette.AppRouter.extend( {
 	# Defines the view for the landing page
 */
 
-window.PostModel = Backbone.Model.extend({
+window.Model_Post = Backbone.Model.extend({
 
 	defaults: {
 		"message": "",
 		"title": "",
-		"created_time": "",
+		"created_time": "", // might have to change the format
 		"from": "",
 		"likes": "",
 		"description": "",
 		"urls": "",
+		"link": "",
 		"openGraph": "",
 		"image": "",
 	},
@@ -147,12 +164,11 @@ window.PostModel = Backbone.Model.extend({
                     openGraph: {}
 	*/
 
-	initialize: function (data, Post) {
-		// Store a ref to the Document object
-		this.postObject = Post;
-
-		//
-		this.createAttributes(this.postObject);
+	initialize: function (data) {
+		// Store a ref to the post object
+		this.postObject = data;
+		// set the attributes
+		this.createAttributes(data);
 	},
 
 	/*
@@ -160,16 +176,44 @@ window.PostModel = Backbone.Model.extend({
 	*/
 
 	createAttributes(Post) {
-		// Get the id
-		this.set("id", Post.id);
+		// Get the message
+		this.set("message", Post.message);
 
 		// Get the title
-		//		if (Post.get("article.title"))
-		//			this.set("title", Document.get("article.title").asText());
+		this.set("title", Post.title);
 
-		// Create an array of Prismic ImageView objects
-		this.set("images", Post.images);
+		// Get the creation time 
+		this.set("created_time", Post.created_time);
 
+		// Get who it was from 
+		this.set("from", Post.from);
+
+		// Get how many likes it had
+		this.set("likes", Post.likes);
+
+		// Get the description 
+		this.set("description", Post.description);
+
+		// Get and save the urls just in case we need this info 
+		this.set("urls", Post.urls);
+
+		// Get and save the link ( if it has one )
+		this.set("link", Post.link);
+
+		// Get the image 
+		this.set("image", Post.image);
+
+		// Get the open graph data if it has it
+		this.set("openGraph", Post.openGraph);
+
+		// make sure stuff isn't undefined
+		if (Post.title === undefined && Post.openGraph !== undefined) {
+			this.set("title", Post.openGraph.title)
+		}
+
+		if (Post.link === undefined && Post.openGraph !== undefined) {
+			this.set("link", Post.openGraph.url)
+		}
 	},
 
 	/*
@@ -181,19 +225,20 @@ window.PostModel = Backbone.Model.extend({
 });
 /*
 	# Defines the view for the landing page
+	apparently these are called in alphabetical order 
 */
 
-window.PostsModelCollection = Backbone.Collection.extend({
-	model: window.PostModel,
+window.Collection_Model_Posts = Backbone.Collection.extend({
+	model: window.Model_Post,
 
 	initialize: function (array, PostsArray) {
 		// Store a ref to the Document object
 		this.postsArray = PostsArray;
 
 		// For each Document
-		_.each(PostsArray, function (doc) {
+		_.each(PostsArray, function (post) {
 			// Create a new Document Model
-			var a = new window.PostModel({}, doc);
+			var a = new window.Model_Post({}, post);
 
 			// Add it to this collection
 			array.push(a);
@@ -206,17 +251,24 @@ window.PostsModelCollection = Backbone.Collection.extend({
 	*/
 
 	comparator: function (a, b) {
-		if (a.get("date") == b.get("date")) return 0;
-		return (a.get("date") > b.get("date")) ? -1 : 1;
+		if (a.get("created_time") == b.get("created_time")) return 0;
+		return (a.get("created_time") > b.get("created_time")) ? -1 : 1;
 		return 0;
 	},
 
 	/*
 		Returns a new collection filtered by a tag
 	*/
+
+	// by video filter
+
+	// by song filter
+
+	// by person/from filter 
+
 	byTag: function (tag) {
-		filtered = this.filter(function (article) {
-			return _.contains(article.get("tags"), tag);
+		filtered = this.filter(function (post) {
+			return _.contains(post.get("tags"), tag);
 		});
 		return new window.ModelArticlesCollection(filtered);
 	},
@@ -232,7 +284,9 @@ window.MainLayout = Backbone.Marionette.LayoutView.extend( {
 	template: JST["views/main/main"],
 
 	regions: {
-		"main" : "#main",
+		"header": "#header", 
+		"content" : "#content",
+		"footer": "#footer"
 	},
 
 	initialize: function( options ) {},
@@ -325,9 +379,9 @@ window.ViewCompositeView = Backbone.Marionette.CompositeView.extend(
 	# Defines the view for 
 */
 
-window.ViewPage = Backbone.Marionette.ItemView.extend( {
+window.View_Content = Backbone.Marionette.ItemView.extend( {
 	
-	template: JST["views/pages/page/page"],
+	template: JST["views/components/content/content"],
 
 	initialize: function( options ) {},
 
@@ -348,3 +402,4 @@ window.ViewPage = Backbone.Marionette.ItemView.extend( {
 	*/
 
 });
+
