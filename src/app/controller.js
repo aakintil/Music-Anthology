@@ -2,15 +2,32 @@
 	# Defines the controller for the main router
 */
 
-window.Controller = Backbone.Marionette.Object.extend( {
+window.Controller = Backbone.Marionette.Object.extend({
 
-	initialize: function( options ) {
+	initialize: function (options) {
 
+		this.retrievePostData();
 		this.containerView = options.containerView;
-		
+
 	},
 
-	handleRouteIndex : function( routeData ) {
+	retrievePostData: function () {
+		console.log("retrieving...");
+
+		var posts = new window.PostsModelCollection();
+		console.log(posts);
+
+		posts.fetch({
+			url: "data/openGraphPosts.json",
+			success: function (success) {
+				console.log("JSON file load was successful", posts);
+			},
+			error: function (error) {
+				console.log('There was some error in loading and processing the JSON file \n');
+			}
+		});
+	},
+	handleRouteIndex: function (routeData) {
 
 		// Clear the region
 		this.containerView.main.empty();
@@ -30,6 +47,6 @@ window.Controller = Backbone.Marionette.Object.extend( {
 	// 	this.containerView.main.show( view );
 	// },
 
-	
+
 
 });

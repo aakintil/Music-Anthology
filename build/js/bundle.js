@@ -51,15 +51,32 @@ $(document).ready( function() {
 	# Defines the controller for the main router
 */
 
-window.Controller = Backbone.Marionette.Object.extend( {
+window.Controller = Backbone.Marionette.Object.extend({
 
-	initialize: function( options ) {
+	initialize: function (options) {
 
+		this.retrievePostData();
 		this.containerView = options.containerView;
-		
+
 	},
 
-	handleRouteIndex : function( routeData ) {
+	retrievePostData: function () {
+		console.log("retrieving...");
+
+		var posts = new window.PostsModelCollection();
+		console.log(posts);
+
+		posts.fetch({
+			url: "data/openGraphPosts.json",
+			success: function (success) {
+				console.log("JSON file load was successful", posts);
+			},
+			error: function (error) {
+				console.log('There was some error in loading and processing the JSON file \n');
+			}
+		});
+	},
+	handleRouteIndex: function (routeData) {
 
 		// Clear the region
 		this.containerView.main.empty();
@@ -79,7 +96,7 @@ window.Controller = Backbone.Marionette.Object.extend( {
 	// 	this.containerView.main.show( view );
 	// },
 
-	
+
 
 });
 /*
@@ -101,43 +118,108 @@ window.Router = Backbone.Marionette.AppRouter.extend( {
 
 });
 /*
-	# Defines the collection for models
+	# Defines the view for the landing page
 */
 
-window.Collection = Backbone.Collection.extend(
-{
-	model: window.Model,
+window.PostModel = Backbone.Model.extend({
 
-	initialize: function( array )
-	{
-		// 
+	defaults: {
+		"message": "",
+		"title": "",
+		"created_time": "",
+		"from": "",
+		"likes": "",
+		"description": "",
+		"urls": "",
+		"openGraph": "",
+		"image": "",
+	},
+	/*
+	
+	                    message: post['message'] || 'NO MESSAGE',
+                    link: (post['link'] === undefined ? 'NO LINK' : post['link']),
+                    created_time: moment(post['created_time']).format("MMMM Do, YYYY"),
+                    from: post['from']['name'],
+                    image: (post['full_picture'] === undefined ? 'NO IMAGE' : post['full_picture']),
+                    likes: (post['likes'] ? post['likes']['data'].length : 0),
+                    description: (post['description'] === undefined ? 'NO DESCRIPTION' : post['description']),
+                    urls: (post['urls'] === undefined ? 'NO URLS' : post['urls']),
+                    openGraph: {}
+	*/
+
+	initialize: function (data, Post) {
+		// Store a ref to the Document object
+		this.postObject = Post;
+
+		//
+		this.createAttributes(this.postObject);
+	},
+
+	/*
+		Creates all the attributes from a Facebook JSON Post object
+	*/
+
+	createAttributes(Post) {
+		// Get the id
+		this.set("id", Post.id);
+
+		// Get the title
+		//		if (Post.get("article.title"))
+		//			this.set("title", Document.get("article.title").asText());
+
+		// Create an array of Prismic ImageView objects
+		this.set("images", Post.images);
+
 	},
 
 	/*
 		#	Methods
 	*/
 
-	
 
 
 });
 /*
-	# Defines the data model for
+	# Defines the view for the landing page
 */
 
-window.Model = Backbone.Model.extend( {
+window.PostsModelCollection = Backbone.Collection.extend({
+	model: window.PostModel,
 
-	initialize: function( data )
-	{
-		// 
+	initialize: function (array, PostsArray) {
+		// Store a ref to the Document object
+		this.postsArray = PostsArray;
+
+		// For each Document
+		_.each(PostsArray, function (doc) {
+			// Create a new Document Model
+			var a = new window.PostModel({}, doc);
+
+			// Add it to this collection
+			array.push(a);
+
+		}.bind(this));
 	},
 
 	/*
 		#	Methods
 	*/
 
-	
+	comparator: function (a, b) {
+		if (a.get("date") == b.get("date")) return 0;
+		return (a.get("date") > b.get("date")) ? -1 : 1;
+		return 0;
+	},
 
+	/*
+		Returns a new collection filtered by a tag
+	*/
+	byTag: function (tag) {
+		filtered = this.filter(function (article) {
+			return _.contains(article.get("tags"), tag);
+		});
+		return new window.ModelArticlesCollection(filtered);
+	},
 });
 /*
 	# Defines the view for the main layout
