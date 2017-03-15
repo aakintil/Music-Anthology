@@ -8,7 +8,7 @@ window.Controller = Backbone.Marionette.Object.extend({
 
 		this.retrievePostData();
 		this.containerView = options.containerView;
-		this.eventEmitter = _.extend({}, Backbone.Events);
+		//		this.eventEmitter = _.extend({}, Backbone.Events);
 	},
 
 	retrievePostData: function () {
@@ -21,7 +21,7 @@ window.Controller = Backbone.Marionette.Object.extend({
 			url: "data/openGraphPosts.json",
 			success: function (success) {
 				console.log("JSON file load was successful -- ", posts.length, " posts.");
-				self.initializeContentView(posts);
+				self.pushPostsToContentView(posts);
 			},
 			error: function (error) {
 				console.log('There was some error in loading and processing the JSON file \n');
@@ -32,15 +32,18 @@ window.Controller = Backbone.Marionette.Object.extend({
 
 	},
 
-	initializeContentView: function (posts) {
+	pushPostsToContentView: function (posts) {
 		// Clear the region
 		this.containerView.content.empty();
 
-		// Init view
-		// var view = new window.View();
+		// create posts collection
+		var model = new window.Model_Post(); 
 
-		// Show  view
-		// this.containerView.main.show(view);
+		// Init view
+		var contentView = new window.View_Content({ "collection": posts, "model" : model } );
+		//
+		//		// Show view
+		this.containerView.content.show(contentView);
 	},
 
 	handleRouteIndex: function (routeData) {

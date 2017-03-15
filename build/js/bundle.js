@@ -57,7 +57,7 @@ window.Controller = Backbone.Marionette.Object.extend({
 
 		this.retrievePostData();
 		this.containerView = options.containerView;
-		this.eventEmitter = _.extend({}, Backbone.Events);
+		//		this.eventEmitter = _.extend({}, Backbone.Events);
 	},
 
 	retrievePostData: function () {
@@ -70,7 +70,7 @@ window.Controller = Backbone.Marionette.Object.extend({
 			url: "data/openGraphPosts.json",
 			success: function (success) {
 				console.log("JSON file load was successful -- ", posts.length, " posts.");
-				self.initializeContentView(posts);
+				self.pushPostsToContentView(posts);
 			},
 			error: function (error) {
 				console.log('There was some error in loading and processing the JSON file \n');
@@ -81,15 +81,18 @@ window.Controller = Backbone.Marionette.Object.extend({
 
 	},
 
-	initializeContentView: function (posts) {
+	pushPostsToContentView: function (posts) {
 		// Clear the region
 		this.containerView.content.empty();
 
-		// Init view
-		// var view = new window.View();
+		// create posts collection
+		var model = new window.Model_Post(); 
 
-		// Show  view
-		// this.containerView.main.show(view);
+		// Init view
+		var contentView = new window.View_Content({ "collection": posts, "model" : model } );
+		//
+		//		// Show view
+		this.containerView.content.show(contentView);
 	},
 
 	handleRouteIndex: function (routeData) {
@@ -176,43 +179,45 @@ window.Model_Post = Backbone.Model.extend({
 	*/
 
 	createAttributes(Post) {
-		// Get the message
-		this.set("message", Post.message);
+		if (Post) {
+			// Get the message
+			this.set("message", Post.message);
 
-		// Get the title
-		this.set("title", Post.title);
+			// Get the title
+			this.set("title", Post.title);
 
-		// Get the creation time 
-		this.set("created_time", Post.created_time);
+			// Get the creation time 
+			this.set("created_time", Post.created_time);
 
-		// Get who it was from 
-		this.set("from", Post.from);
+			// Get who it was from 
+			this.set("from", Post.from);
 
-		// Get how many likes it had
-		this.set("likes", Post.likes);
+			// Get how many likes it had
+			this.set("likes", Post.likes);
 
-		// Get the description 
-		this.set("description", Post.description);
+			// Get the description 
+			this.set("description", Post.description);
 
-		// Get and save the urls just in case we need this info 
-		this.set("urls", Post.urls);
+			// Get and save the urls just in case we need this info 
+			this.set("urls", Post.urls);
 
-		// Get and save the link ( if it has one )
-		this.set("link", Post.link);
+			// Get and save the link ( if it has one )
+			this.set("link", Post.link);
 
-		// Get the image 
-		this.set("image", Post.image);
+			// Get the image 
+			this.set("image", Post.image);
 
-		// Get the open graph data if it has it
-		this.set("openGraph", Post.openGraph);
+			// Get the open graph data if it has it
+			this.set("openGraph", Post.openGraph);
 
-		// make sure stuff isn't undefined
-		if (Post.title === undefined && Post.openGraph !== undefined) {
-			this.set("title", Post.openGraph.title)
-		}
+			// make sure stuff isn't undefined
+			if (Post.title === undefined && Post.openGraph !== undefined) {
+				this.set("title", Post.openGraph.title)
+			}
 
-		if (Post.link === undefined && Post.openGraph !== undefined) {
-			this.set("link", Post.openGraph.url)
+			if (Post.link === undefined && Post.openGraph !== undefined) {
+				this.set("link", Post.openGraph.url)
+			}
 		}
 	},
 
@@ -277,26 +282,33 @@ window.Collection_Model_Posts = Backbone.Collection.extend({
 	# Defines the view for the main layout
 */
 
-window.MainLayout = Backbone.Marionette.LayoutView.extend( {
+window.MainLayout = Backbone.Marionette.LayoutView.extend({
 
 	el: "body",
-	
+
 	template: JST["views/main/main"],
 
 	regions: {
-		"header": "#header", 
-		"content" : "#content",
-		"footer": "#footer"
+		"header": ".l-header",
+		"content": ".l-content",
+		"footer": ".l-footer"
 	},
 
-	initialize: function( options ) {},
+	initialize: function (options) {},
 
 	/*
 		# View 
 	*/
 
-	onRender: function() {
-
+	onRender: function () {
+		// Show the header view
+		var headerView = new window.View_Header();
+		var contentView = new window.View_Content();
+		var footerView = new window.View_Footer();
+		
+		this.header.show(headerView); 
+		this.content.show(contentView); 
+		this.footer.show(footerView); 
 	},
 
 	/*
@@ -379,9 +391,67 @@ window.ViewCompositeView = Backbone.Marionette.CompositeView.extend(
 	# Defines the view for 
 */
 
-window.View_Content = Backbone.Marionette.ItemView.extend( {
-	
+window.View_Content = Backbone.Marionette.LayoutView.extend({
+
 	template: JST["views/components/content/content"],
+
+	initialize: function (options) {
+		// Assign posts
+		//		this.postsCollection = options.models;
+	},
+
+	/*
+		# View 
+	*/
+
+	onRender: function () {
+	},
+
+	/*
+		# Events
+	*/
+
+	events: {},
+
+	/*
+		# Methods
+	*/
+
+});
+/*
+	# Defines the view for 
+*/
+
+window.View_Footer = Backbone.Marionette.ItemView.extend({
+
+    template: JST["views/components/footer/footer"],
+
+    initialize: function (options) {},
+
+    /*
+    	# View 
+    */
+
+    onRender: function () {},
+
+    /*
+    	# Events
+    */
+
+    events: {},
+
+    /*
+    	# Methods
+    */
+
+});
+/*
+	# Defines the view for 
+*/
+
+window.View_Header = Backbone.Marionette.ItemView.extend( {
+	
+	template: JST["views/components/header/header"],
 
 	initialize: function( options ) {},
 
@@ -402,4 +472,3 @@ window.View_Content = Backbone.Marionette.ItemView.extend( {
 	*/
 
 });
-

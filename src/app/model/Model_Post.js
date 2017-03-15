@@ -41,43 +41,45 @@ window.Model_Post = Backbone.Model.extend({
 	*/
 
 	createAttributes(Post) {
-		// Get the message
-		this.set("message", Post.message);
+		if (Post) {
+			// Get the message
+			this.set("message", Post.message);
 
-		// Get the title
-		this.set("title", Post.title);
+			// Get the title
+			this.set("title", Post.title);
 
-		// Get the creation time 
-		this.set("created_time", Post.created_time);
+			// Get the creation time 
+			this.set("created_time", Post.created_time);
 
-		// Get who it was from 
-		this.set("from", Post.from);
+			// Get who it was from 
+			this.set("from", Post.from);
 
-		// Get how many likes it had
-		this.set("likes", Post.likes);
+			// Get how many likes it had
+			this.set("likes", Post.likes);
 
-		// Get the description 
-		this.set("description", Post.description);
+			// Get the description 
+			this.set("description", Post.description);
 
-		// Get and save the urls just in case we need this info 
-		this.set("urls", Post.urls);
+			// Get and save the urls just in case we need this info 
+			this.set("urls", Post.urls);
 
-		// Get and save the link ( if it has one )
-		this.set("link", Post.link);
+			// Get and save the link ( if it has one )
+			this.set("link", Post.link);
 
-		// Get the image 
-		this.set("image", Post.image);
+			// Get the image 
+			this.set("image", Post.image);
 
-		// Get the open graph data if it has it
-		this.set("openGraph", Post.openGraph);
+			// Get the open graph data if it has it
+			this.set("openGraph", Post.openGraph);
 
-		// make sure stuff isn't undefined
-		if (Post.title === undefined && Post.openGraph !== undefined) {
-			this.set("title", Post.openGraph.title)
-		}
+			// make sure stuff isn't undefined
+			if (Post.title === undefined && Post.openGraph !== undefined) {
+				this.set("title", Post.openGraph.title)
+			}
 
-		if (Post.link === undefined && Post.openGraph !== undefined) {
-			this.set("link", Post.openGraph.url)
+			if (Post.link === undefined && Post.openGraph !== undefined) {
+				this.set("link", Post.openGraph.url)
+			}
 		}
 	},
 
