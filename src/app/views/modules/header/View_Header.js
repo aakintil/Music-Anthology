@@ -4,7 +4,7 @@
 
 window.View_Header = Backbone.Marionette.ItemView.extend( {
 	
-	template: JST["views/components/header/header"],
+	template: JST["views/modules/header/header"],
 
 	initialize: function( options ) {},
 

@@ -388,16 +388,73 @@ window.ViewCompositeView = Backbone.Marionette.CompositeView.extend(
 
 });
 /*
+	# Defines the view that 
+*/
+window.View_CardItem = Backbone.Marionette.ItemView.extend({
+	className: "card__item",
+	template: JST["views/components/card/cardItem"]
+		//	, ui: {
+		//		"image": ".block__image"
+		//	, }
+		,
+	initialize: function (options) {
+
+	},
+	onDestroy: function () {},
+	/*
+		# View 
+	*/
+	onRender: function () {},
+	/*
+		# Events
+	*/
+	events: {},
+	/*
+		# Methods
+	*/
+	// Trigger by scrollMonitor when the view enters the viewport
+	onEnterViewport: function () {}, // Trigger by scrollMonitor when the view enters the viewport minus an offset
+	onEnterViewportOffset: function (watcher) {
+
+	},
+	loadImage: function () {},
+});
+/*
+	# Defines the view that
+*/
+window.View_Cards = Backbone.Marionette.CompositeView.extend({
+	template: JST["views/components/card/card"],
+	childView: window.View_CardItem,
+	childViewContainer: ".card__container2",
+	initialize: function (options) {},
+	/*
+		# View 
+	*/
+	onRender: function () {
+
+	},
+	/*
+		# Events
+	*/
+	events: {},
+	/*
+		# Methods
+	*/
+});
+/*
 	# Defines the view for 
 */
 
 window.View_Content = Backbone.Marionette.LayoutView.extend({
 
-	template: JST["views/components/content/content"],
+	template: JST["views/modules/content/content"],
+	regions: {
+		"cardContainer": ".card__container",
+	},
 
 	initialize: function (options) {
 		// Assign posts
-		//		this.postsCollection = options.models;
+		this.postsCollection = options.collection;
 	},
 
 	/*
@@ -405,6 +462,11 @@ window.View_Content = Backbone.Marionette.LayoutView.extend({
 	*/
 
 	onRender: function () {
+		// Show the card blocks
+		var cardsView = new View_Cards({
+			"collection": this.postsCollection
+		});
+		this.cardContainer.show(cardsView);
 	},
 
 	/*
@@ -424,7 +486,7 @@ window.View_Content = Backbone.Marionette.LayoutView.extend({
 
 window.View_Footer = Backbone.Marionette.ItemView.extend({
 
-    template: JST["views/components/footer/footer"],
+    template: JST["views/modules/footer/footer"],
 
     initialize: function (options) {},
 
@@ -451,7 +513,7 @@ window.View_Footer = Backbone.Marionette.ItemView.extend({
 
 window.View_Header = Backbone.Marionette.ItemView.extend( {
 	
-	template: JST["views/components/header/header"],
+	template: JST["views/modules/header/header"],
 
 	initialize: function( options ) {},
 
