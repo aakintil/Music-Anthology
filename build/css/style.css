@@ -8375,6 +8375,23 @@ ul.styled {
 /*
     # Blocks
 */
+.l-main {
+  background: rgba(0, 0, 0, 0.1); }
+
+.l-header {
+  background: white;
+  display: flex;
+  flex-direction: row; }
+
+.l-header > div {
+  width: 100%; }
+
+.l-content {
+  background: grey; }
+
+.l-sidebar {
+  background: blue; }
+
 /*
 	# Vars
 */

@@ -6,7 +6,7 @@ window.View_Content = Backbone.Marionette.LayoutView.extend({
 
 	template: JST["views/modules/content/content"],
 	regions: {
-		"cardContainer": ".card__container",
+		"content": ".content",
 	},
 
 	initialize: function (options) {
@@ -23,7 +23,7 @@ window.View_Content = Backbone.Marionette.LayoutView.extend({
 		var cardsView = new View_Cards({
 			"collection": this.postsCollection
 		});
-		this.cardContainer.show(cardsView);
+		this.content.show(cardsView);
 	},
 
 	/*

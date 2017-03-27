@@ -1,3 +1,64 @@
-<div class="card__container2">
-    
+<div class="card__header">
+	<img src='<%= image %>' alt="">
+	<p>
+		<%= title %>
+	</p>
+	<p>
+		<%= created_time %>
+	</p>
+	<p>
+		<%= link %>
+	</p>
 </div>
+<div class="card__content">
+	<p>
+		<%= description %>
+	</p>
+
+</div>
+<div class="card__footer">
+	<p>
+		<%= from %>
+	</p>
+	<p>
+		<%= likes %>
+	</p>
+	<p>
+		<%= urls %>
+	</p>
+	<p>
+		<%= openGraph %>
+	</p>
+</div>
+
+
+<!--
+
+		this.set("message", Post.message);
+
+			// Get the title
+			this.set("title", Post.title);
+
+			// Get the creation time 
+			this.set("created_time", Post.created_time);
+
+			// Get who it was from 
+			this.set("from", Post.from);
+
+			// Get how many likes it had
+			this.set("likes", Post.likes);
+
+			// Get the description 
+			this.set("description", Post.description);
+
+			// Get and save the urls just in case we need this info 
+			this.set("urls", Post.urls);
+
+			// Get and save the link ( if it has one )
+			this.set("link", Post.link);
+
+			// Get the image 
+			this.set("image", Post.image);
+
+			// Get the open graph data if it has it
+			this.set("openGraph", Post.openGraph);-->

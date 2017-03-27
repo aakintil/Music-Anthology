@@ -1,9 +1,9 @@
 /*
 	# Defines the view that 
 */
-window.View_CardItem = Backbone.Marionette.ItemView.extend({
-	className: "card__item",
-	template: JST["views/components/card/cardItem"]
+window.View_Card = Backbone.Marionette.ItemView.extend({
+	className: "card",
+	template: JST["views/components/card/card"]
 		//	, ui: {
 		//		"image": ".block__image"
 		//	, }
@@ -34,9 +34,9 @@ window.View_CardItem = Backbone.Marionette.ItemView.extend({
 	# Defines the view that
 */
 window.View_Cards = Backbone.Marionette.CompositeView.extend({
-	template: JST["views/components/card/card"],
-	childView: window.View_CardItem,
-	childViewContainer: ".card__container2",
+	template: JST["views/components/card/cards"],
+	childView: window.View_Card,
+	childViewContainer: ".card__container",
 	initialize: function (options) {},
 	/*
 		# View 

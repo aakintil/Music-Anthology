@@ -7,14 +7,26 @@
     # Blocks
 */
 
-.l-header
-{}
+// main page layout
+.l-main {
+	background: rgba(0, 0, 0, 0.1);
+}
 
-.l-main
-{}
+.l-header {
+	background: white;
+	display: flex;
+	flex-direction: row;
+}
 
-.l-content
-{}
+// weird bug with flex 
+.l-header > div {
+	width: 100%;
+}
 
-.l-sidebar
-{}
+.l-content {
+	background: grey;
+}
+
+.l-sidebar {
+	background: blue;
+}

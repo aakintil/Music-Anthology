@@ -29,32 +29,34 @@ return __p
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="card__container2">\n    \n</div>';
+__p += '<div class="card__header">\n\t<img src=\'' +
+((__t = ( image )) == null ? '' : __t) +
+'\' alt="">\n\t<p>\n\t\t' +
+((__t = ( title )) == null ? '' : __t) +
+'\n\t</p>\n\t<p>\n\t\t' +
+((__t = ( created_time )) == null ? '' : __t) +
+'\n\t</p>\n\t<p>\n\t\t' +
+((__t = ( link )) == null ? '' : __t) +
+'\n\t</p>\n</div>\n<div class="card__content">\n\t<p>\n\t\t' +
+((__t = ( description )) == null ? '' : __t) +
+'\n\t</p>\n\n</div>\n<div class="card__footer">\n\t<p>\n\t\t' +
+((__t = ( from )) == null ? '' : __t) +
+'\n\t</p>\n\t<p>\n\t\t' +
+((__t = ( likes )) == null ? '' : __t) +
+'\n\t</p>\n\t<p>\n\t\t' +
+((__t = ( urls )) == null ? '' : __t) +
+'\n\t</p>\n\t<p>\n\t\t' +
+((__t = ( openGraph )) == null ? '' : __t) +
+'\n\t</p>\n</div>\n\n\n<!--\n\n\t\tthis.set("message", Post.message);\n\n\t\t\t// Get the title\n\t\t\tthis.set("title", Post.title);\n\n\t\t\t// Get the creation time \n\t\t\tthis.set("created_time", Post.created_time);\n\n\t\t\t// Get who it was from \n\t\t\tthis.set("from", Post.from);\n\n\t\t\t// Get how many likes it had\n\t\t\tthis.set("likes", Post.likes);\n\n\t\t\t// Get the description \n\t\t\tthis.set("description", Post.description);\n\n\t\t\t// Get and save the urls just in case we need this info \n\t\t\tthis.set("urls", Post.urls);\n\n\t\t\t// Get and save the link ( if it has one )\n\t\t\tthis.set("link", Post.link);\n\n\t\t\t// Get the image \n\t\t\tthis.set("image", Post.image);\n\n\t\t\t// Get the open graph data if it has it\n\t\t\tthis.set("openGraph", Post.openGraph);-->';
 
 }
 return __p
 },
-"views/components/card/cardItem": function(obj) {
+"views/components/card/cards": function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="card__item">\n  <p> ' +
-((__t = ( title )) == null ? '' : __t) +
-' </p>\n  <p> ' +
-((__t = ( created_time )) == null ? '' : __t) +
-' </p>\n  <p> ' +
-((__t = ( from )) == null ? '' : __t) +
-' </p>\n  <p> ' +
-((__t = ( likes )) == null ? '' : __t) +
-' </p>\n  <p> ' +
-((__t = ( description )) == null ? '' : __t) +
-' </p>\n  <p> ' +
-((__t = ( urls )) == null ? '' : __t) +
-' </p>\n  <p> ' +
-((__t = ( link )) == null ? '' : __t) +
-' </p>\n  <p> ' +
-((__t = ( openGraph )) == null ? '' : __t) +
-' </p>\n</div>\n\n<!--\n\n\t\tthis.set("message", Post.message);\n\n\t\t\t// Get the title\n\t\t\tthis.set("title", Post.title);\n\n\t\t\t// Get the creation time \n\t\t\tthis.set("created_time", Post.created_time);\n\n\t\t\t// Get who it was from \n\t\t\tthis.set("from", Post.from);\n\n\t\t\t// Get how many likes it had\n\t\t\tthis.set("likes", Post.likes);\n\n\t\t\t// Get the description \n\t\t\tthis.set("description", Post.description);\n\n\t\t\t// Get and save the urls just in case we need this info \n\t\t\tthis.set("urls", Post.urls);\n\n\t\t\t// Get and save the link ( if it has one )\n\t\t\tthis.set("link", Post.link);\n\n\t\t\t// Get the image \n\t\t\tthis.set("image", Post.image);\n\n\t\t\t// Get the open graph data if it has it\n\t\t\tthis.set("openGraph", Post.openGraph);-->\n';
+__p += '<div class="card__container">\n    \n</div>';
 
 }
 return __p
@@ -63,9 +65,7 @@ return __p
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="container">\n\tMain View Container\n\t<!--\t' +
-((__t = ( this )) == null ? '' : __t) +
-'-->\n\t<div class="card__container"></div>\n</div>';
+__p += '<div class="container">\n\tMain View Container\n\t<div class="content"></div>\n</div>';
 
 }
 return __p
@@ -83,7 +83,7 @@ return __p
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="[ header__container ][ container ]">\n    <h1> header </h1>\n</div>';
+__p += '<div class="[ header__container ][ container ]">\n    <div class="header__title">\n        <p> Save Mah Inbox </p>\n    </div>\n    <div class="header__search">\n        <input type="text">\n    </div>\n    \n    <div class="header__info">\n        <h1> Music Anthology </h1>\n    </div>\n</div>';
 
 }
 return __p

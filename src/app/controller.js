@@ -37,10 +37,22 @@ window.Controller = Backbone.Marionette.Object.extend({
 		this.containerView.content.empty();
 
 		// create posts collection
-		var model = new window.Model_Post(); 
+		var model = new window.Model_Post();
+
+		// creating a temp collection variable to test ui designs before all the posts get pushed
+		// TODO 
+		// DELETE LATER
+		var tempCollection = new window.Collection_Model_Posts();
+		for (var i = 0; i < 10; i++) {
+			tempCollection.models.push(posts.models[i])
+		}
+		tempCollection.length = 10; 
 
 		// Init view
-		var contentView = new window.View_Content({ "collection": posts, "model" : model } );
+		var contentView = new window.View_Content({
+			"collection": tempCollection, // ***** don't forget to change this back to posts
+			"model": model
+		});
 		//
 		//		// Show view
 		this.containerView.content.show(contentView);

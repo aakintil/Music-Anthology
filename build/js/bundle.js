@@ -86,10 +86,22 @@ window.Controller = Backbone.Marionette.Object.extend({
 		this.containerView.content.empty();
 
 		// create posts collection
-		var model = new window.Model_Post(); 
+		var model = new window.Model_Post();
+
+		// creating a temp collection variable to test ui designs before all the posts get pushed
+		// TODO 
+		// DELETE LATER
+		var tempCollection = new window.Collection_Model_Posts();
+		for (var i = 0; i < 10; i++) {
+			tempCollection.models.push(posts.models[i])
+		}
+		tempCollection.length = 10; 
 
 		// Init view
-		var contentView = new window.View_Content({ "collection": posts, "model" : model } );
+		var contentView = new window.View_Content({
+			"collection": tempCollection, // ***** don't forget to change this back to posts
+			"model": model
+		});
 		//
 		//		// Show view
 		this.containerView.content.show(contentView);
@@ -327,6 +339,60 @@ window.MainLayout = Backbone.Marionette.LayoutView.extend({
 /*
 	# Defines the view that 
 */
+window.View_Card = Backbone.Marionette.ItemView.extend({
+	className: "card",
+	template: JST["views/components/card/card"]
+		//	, ui: {
+		//		"image": ".block__image"
+		//	, }
+		,
+	initialize: function (options) {
+
+	},
+	onDestroy: function () {},
+	/*
+		# View 
+	*/
+	onRender: function () {},
+	/*
+		# Events
+	*/
+	events: {},
+	/*
+		# Methods
+	*/
+	// Trigger by scrollMonitor when the view enters the viewport
+	onEnterViewport: function () {}, // Trigger by scrollMonitor when the view enters the viewport minus an offset
+	onEnterViewportOffset: function (watcher) {
+
+	},
+	loadImage: function () {},
+});
+/*
+	# Defines the view that
+*/
+window.View_Cards = Backbone.Marionette.CompositeView.extend({
+	template: JST["views/components/card/cards"],
+	childView: window.View_Card,
+	childViewContainer: ".card__container",
+	initialize: function (options) {},
+	/*
+		# View 
+	*/
+	onRender: function () {
+
+	},
+	/*
+		# Events
+	*/
+	events: {},
+	/*
+		# Methods
+	*/
+});
+/*
+	# Defines the view that 
+*/
 
 window.ViewCompositeViewItem = Backbone.Marionette.ItemView.extend(
 {
@@ -388,99 +454,6 @@ window.ViewCompositeView = Backbone.Marionette.CompositeView.extend(
 
 });
 /*
-	# Defines the view that 
-*/
-window.View_CardItem = Backbone.Marionette.ItemView.extend({
-	className: "card__item",
-	template: JST["views/components/card/cardItem"]
-		//	, ui: {
-		//		"image": ".block__image"
-		//	, }
-		,
-	initialize: function (options) {
-
-	},
-	onDestroy: function () {},
-	/*
-		# View 
-	*/
-	onRender: function () {},
-	/*
-		# Events
-	*/
-	events: {},
-	/*
-		# Methods
-	*/
-	// Trigger by scrollMonitor when the view enters the viewport
-	onEnterViewport: function () {}, // Trigger by scrollMonitor when the view enters the viewport minus an offset
-	onEnterViewportOffset: function (watcher) {
-
-	},
-	loadImage: function () {},
-});
-/*
-	# Defines the view that
-*/
-window.View_Cards = Backbone.Marionette.CompositeView.extend({
-	template: JST["views/components/card/card"],
-	childView: window.View_CardItem,
-	childViewContainer: ".card__container2",
-	initialize: function (options) {},
-	/*
-		# View 
-	*/
-	onRender: function () {
-
-	},
-	/*
-		# Events
-	*/
-	events: {},
-	/*
-		# Methods
-	*/
-});
-/*
-	# Defines the view for 
-*/
-
-window.View_Content = Backbone.Marionette.LayoutView.extend({
-
-	template: JST["views/modules/content/content"],
-	regions: {
-		"cardContainer": ".card__container",
-	},
-
-	initialize: function (options) {
-		// Assign posts
-		this.postsCollection = options.collection;
-	},
-
-	/*
-		# View 
-	*/
-
-	onRender: function () {
-		// Show the card blocks
-		var cardsView = new View_Cards({
-			"collection": this.postsCollection
-		});
-		this.cardContainer.show(cardsView);
-	},
-
-	/*
-		# Events
-	*/
-
-	events: {},
-
-	/*
-		# Methods
-	*/
-
-});
-/*
 	# Defines the view for 
 */
 
@@ -505,6 +478,45 @@ window.View_Footer = Backbone.Marionette.ItemView.extend({
     /*
     	# Methods
     */
+
+});
+/*
+	# Defines the view for 
+*/
+
+window.View_Content = Backbone.Marionette.LayoutView.extend({
+
+	template: JST["views/modules/content/content"],
+	regions: {
+		"content": ".content",
+	},
+
+	initialize: function (options) {
+		// Assign posts
+		this.postsCollection = options.collection;
+	},
+
+	/*
+		# View 
+	*/
+
+	onRender: function () {
+		// Show the card blocks
+		var cardsView = new View_Cards({
+			"collection": this.postsCollection
+		});
+		this.content.show(cardsView);
+	},
+
+	/*
+		# Events
+	*/
+
+	events: {},
+
+	/*
+		# Methods
+	*/
 
 });
 /*
