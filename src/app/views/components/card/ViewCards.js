@@ -2,7 +2,7 @@
 	# Defines the view that 
 */
 window.View_Card = Backbone.Marionette.ItemView.extend({
-	className: "card",
+	className: "card pad-h",
 	template: JST["views/components/card/card"]
 		//	, ui: {
 		//		"image": ".block__image"

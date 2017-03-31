@@ -340,7 +340,7 @@ window.MainLayout = Backbone.Marionette.LayoutView.extend({
 	# Defines the view that 
 */
 window.View_Card = Backbone.Marionette.ItemView.extend({
-	className: "card",
+	className: "card pad-h",
 	template: JST["views/components/card/card"]
 		//	, ui: {
 		//		"image": ".block__image"
@@ -457,33 +457,6 @@ window.ViewCompositeView = Backbone.Marionette.CompositeView.extend(
 	# Defines the view for 
 */
 
-window.View_Footer = Backbone.Marionette.ItemView.extend({
-
-    template: JST["views/modules/footer/footer"],
-
-    initialize: function (options) {},
-
-    /*
-    	# View 
-    */
-
-    onRender: function () {},
-
-    /*
-    	# Events
-    */
-
-    events: {},
-
-    /*
-    	# Methods
-    */
-
-});
-/*
-	# Defines the view for 
-*/
-
 window.View_Content = Backbone.Marionette.LayoutView.extend({
 
 	template: JST["views/modules/content/content"],
@@ -517,6 +490,33 @@ window.View_Content = Backbone.Marionette.LayoutView.extend({
 	/*
 		# Methods
 	*/
+
+});
+/*
+	# Defines the view for 
+*/
+
+window.View_Footer = Backbone.Marionette.ItemView.extend({
+
+    template: JST["views/modules/footer/footer"],
+
+    initialize: function (options) {},
+
+    /*
+    	# View 
+    */
+
+    onRender: function () {},
+
+    /*
+    	# Events
+    */
+
+    events: {},
+
+    /*
+    	# Methods
+    */
 
 });
 /*

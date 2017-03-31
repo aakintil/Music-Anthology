@@ -2,7 +2,7 @@
 	# Vars
 */
 
-$size-pad 			: 20px;
+$size-pad 			: 24px;
 
 /*
 	# Padding
@@ -42,6 +42,14 @@ $size-pad 			: 20px;
 .pad--none-v		{ padding-top: 0 !important; padding-bottom: 0 !important; }
 .pad--none-h		{ padding-left: 0 !important; padding-right: 0 !important; }
 
+
+.margin 				{ margin: $size-pad; }
+.margin--top 			{ margin-top: $size-pad; }
+.margin--bottom 		{ margin-bottom: $size-pad; }
+.margin--left 			{ margin-left: $size-pad; }
+.margin--right 			{ margin-right: $size-pad; }
+.margin--v				{ margin-top: $size-pad; 		margin-bottom: $size-pad; }
+.margin--h				{ margin-left: $size-pad;		margin-right: $size-pad; }
 
 /*
 	# Colors

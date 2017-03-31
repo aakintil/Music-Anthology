@@ -1,0 +1,24 @@
+.card__container {
+ display: flex;
+ flex-direction: row;
+ flex-flow: row wrap;
+ justify-content: space-between;
+}
+
+.card {
+ width: 25%;
+ height: 380px;
+ overflow: hidden;
+ display: flex;
+ flex-direction: row;
+ flex-flow: row wrap;
+ border: 1px solid white;
+}
+
+.card__header {
+ width: 100%;
+}
+
+.card__header > img {
+ width: 100%;
+}
