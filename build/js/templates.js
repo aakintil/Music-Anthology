@@ -25,15 +25,6 @@ __p += '<div class="">\n\tItem\n</div>';
 }
 return __p
 },
-"views/modules/content/content": function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="container">\n\tMain View Container\n\t<div class="content"></div>\n</div>';
-
-}
-return __p
-},
 "views/components/card/card": function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
@@ -66,6 +57,15 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="card__container">\n    \n</div>';
+
+}
+return __p
+},
+"views/modules/content/content": function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<div class="container">\n\tMain View Container\n\t<div class="content"></div>\n</div>';
 
 }
 return __p

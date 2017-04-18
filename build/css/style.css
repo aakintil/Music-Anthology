@@ -8410,12 +8410,15 @@ ul.styled {
   flex: 0 0 100%; }
 
 .l-header {
-  background: white; }
+  background: white;
+  position: fixed;
+  width: 100%; }
 
 .l-header > div {
   width: 100%; }
 
 .l-content {
+  margin-top: 232px;
   background: grey; }
 
 .content > div {

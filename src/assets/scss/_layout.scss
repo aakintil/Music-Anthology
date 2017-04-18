@@ -23,14 +23,17 @@
 
 .l-header {
 	background: white;
+	position: fixed;
+	width: 100%;
 }
 
-// weird bug with flex 
+// weird bug with flex
 .l-header > div {
 	width: 100%;
 }
 
 .l-content {
+	margin-top: 232px; // header height 
 	background: grey;
 }
 
